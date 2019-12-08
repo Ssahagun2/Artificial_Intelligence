@@ -1,38 +1,29 @@
-from py.a_star import Graph
-
-
-def add_nodes(g):
-    g.add_node('S', {'A': 3, 'B': 7})
-    g.add_node('A', {'C': 1, 'D': 6})
-    g.add_node('B', {'E': 1, 'G2': 9})
-    g.add_node('C', {'D': 4, 'S': 2})
-    g.add_node('D', {'G1': 6, 'B': 3})
-    g.add_node('E', {'G2': 5})
-    g.add_node('G1', {'C': 2})
-    g.add_node('G2', {'B', 8})
-
-
-def add_heuristics(g):
-    g.add_node_heuristics('S', 10)
-    g.add_node_heuristics('A', 5)
-    g.add_node_heuristics('B', 4)
-    g.add_node_heuristics('C', 3)
-    g.add_node_heuristics('D', 2)
-    g.add_node_heuristics('E', 4)
-    g.add_node_heuristics('G1', 0)
-    g.add_node_heuristics('G2', 0)
-
+from board import *
+import Player
+import random as rand
 
 def main():
-    g = Graph()
-    add_nodes(g)
-    add_heuristics(g)
-    path = g.a_star_search('S', ['G1', 'G2'])
-    if path:
-        print(path)
+    b1 = Board(6, 7)
+    p1 = Player.players(1)
+    p2 = Player.players(2)
+    turn = rand.randint(0, 1)
+    Board.print_board(b1)
+    game_over = False
+    while not game_over:
+        if turn == 0:
+            p1.make_move(b1)
+        else:
+            p2.make_move(b1)
+        turn = update_turn(turn)
+
+def update_turn(turn):
+    if turn == 1:
+        nturn = turn % 2
     else:
-        print('no path found')
+        nturn = turn + 1
+    return nturn
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
+
